@@ -3,15 +3,20 @@ name: Compilar y probar
 on:
   push:
     branches: [main]
-    tags: ["v*"]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write # necesario para publicar Releases
+  actions: read   # SignPath lee el artefacto subido
 
 jobs:
   build:
     runs-on: windows-latest
+
+    env:
+      # La firma solo se activa cuando existe el secreto de SignPath.
+      SIGNPATH_ENABLED: ${{ secrets.SIGNPATH_API_TOKEN != '' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -30,43 +35,67 @@ jobs:
         run: dotnet test PdfGestor.sln -c Release --no-build --verbosity normal
 
       - name: Publicar ejecutables (un solo .exe, sin instalar .NET)
+        shell: bash
         run: |
           dotnet publish src/PdfGestor.App -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish/app
           dotnet publish src/PdfGestor.Cli -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -o publish/cli
+          mkdir -p publish/unsigned
+          cp publish/app/PdfGestor.exe publish/cli/pdfgestor-cli.exe publish/unsigned/
 
-      - uses: actions/upload-artifact@v4
+      - name: Subir ejecutables sin firmar
+        id: upload-unsigned
+        uses: actions/upload-artifact@v4
         with:
           name: PdfGestor-win-x64
-          path: |
-            publish/app/PdfGestor.exe
-            publish/cli/pdfgestor-cli.exe
+          path: publish/unsigned/*
 
-      # La versión sale de Directory.Build.props. Cada subida a main
-      # crea (o actualiza) la Release de esa versión con los .exe.
-      - name: Leer versión
+      # ── ¿Hay que publicar una versión nueva? ──
+      # La versión sale de Directory.Build.props. Solo se crea una Release
+      # cuando esa versión todavía no existe: para sacar una nueva, sube el número.
+      - name: Comprobar versión
         id: version
-        shell: pwsh
-        run: |
-          $v = ([xml](Get-Content Directory.Build.props)).Project.PropertyGroup.Version
-          "tag=v$v" >> $env:GITHUB_OUTPUT
-
-      - name: Crear Release
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-          TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || steps.version.outputs.tag }}
         run: |
-          # Borra la Release anterior de esta versión (si la hay) para dejarla limpia
-          for id in $(gh api "repos/$REPO/releases" --jq ".[] | select(.tag_name == \"$TAG\") | .id"); do
-            gh api -X DELETE "repos/$REPO/releases/$id"
-          done
-          # En subidas a main, mueve el tag de la versión al commit actual
-          if [[ "$GITHUB_REF" != refs/tags/* ]]; then
-            gh api -X DELETE "repos/$REPO/git/refs/tags/$TAG" 2>/dev/null || true
+          v=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' Directory.Build.props)
+          echo "tag=v$v" >> "$GITHUB_OUTPUT"
+          if gh release view "v$v" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "La versión v$v ya está publicada; no se crea Release."
+            echo "new=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "new=true" >> "$GITHUB_OUTPUT"
           fi
-          gh release create "$TAG" publish/app/PdfGestor.exe publish/cli/pdfgestor-cli.exe \
+
+      # ── Firma con SignPath (gratis para código abierto) ──
+      - name: Firmar con SignPath
+        if: steps.version.outputs.new == 'true' && env.SIGNPATH_ENABLED == 'true'
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG || 'pdfgestor' }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG || 'release-signing' }}
+          github-artifact-id: ${{ steps.upload-unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          wait-for-completion-timeout-in-seconds: 3600 # da tiempo a aprobarla a mano
+          output-artifact-directory: publish/signed
+
+      - name: Crear Release
+        if: steps.version.outputs.new == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          dir=publish/unsigned
+          extra=""
+          if [ -f publish/signed/PdfGestor.exe ]; then
+            dir=publish/signed
+            extra=$'\n\nFree code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).'
+          fi
+          gh release create "$TAG" "$dir/PdfGestor.exe" "$dir/pdfgestor-cli.exe" \
             --target "$GITHUB_SHA" \
             --title "PDF Gestor $TAG" \
-            --notes "Descarga **PdfGestor.exe** (aplicación con ventana) o **pdfgestor-cli.exe** (consola). No necesitan instalación. Todo se procesa en tu equipo."
+            --notes "Descarga **PdfGestor.exe** (aplicación con ventana) o **pdfgestor-cli.exe** (consola). No necesitan instalación y todo se procesa en tu equipo.$extra"
