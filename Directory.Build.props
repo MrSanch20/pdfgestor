@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Version>0.1.0</Version>
+    <Authors>Daniel Sancho Goñi</Authors>
+    <Product>PDF Gestor</Product>
+    <Description>Une y divide PDFs en tu ordenador, sin subirlos a ninguna web.</Description>
+    <Copyright>© 2026 Daniel Sancho Goñi</Copyright>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- Permite compilar (no ejecutar) desde Linux/Mac, útil para CI -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AssemblyName>PdfGestor</AssemblyName>
+    <RootNamespace>PdfGestor.App</RootNamespace>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfGestor.Core\PdfGestor.Core.csproj" />
+  </ItemGroup>
+
+</Project>

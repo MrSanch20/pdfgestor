@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{272908EA-8313-4B3A-B804-35692F8DCBDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfGestor.Core", "src\PdfGestor.Core\PdfGestor.Core.csproj", "{B30826FC-43D3-46A0-B8D6-0EDB4CB80868}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfGestor.Cli", "src\PdfGestor.Cli\PdfGestor.Cli.csproj", "{2F90922D-D3CC-48CC-B563-75BB97AF1CFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfGestor.App", "src\PdfGestor.App\PdfGestor.App.csproj", "{7C1E4A52-3B8D-4F0E-9A61-2D5B8E3F4A17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{45B3B76B-2FDA-40E5-89D8-6AEB971BCC97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfGestor.Core.Tests", "tests\PdfGestor.Core.Tests\PdfGestor.Core.Tests.csproj", "{DE3C8553-0F3E-466A-920F-1CD503138BC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B30826FC-43D3-46A0-B8D6-0EDB4CB80868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B30826FC-43D3-46A0-B8D6-0EDB4CB80868}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B30826FC-43D3-46A0-B8D6-0EDB4CB80868}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B30826FC-43D3-46A0-B8D6-0EDB4CB80868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F90922D-D3CC-48CC-B563-75BB97AF1CFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F90922D-D3CC-48CC-B563-75BB97AF1CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F90922D-D3CC-48CC-B563-75BB97AF1CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F90922D-D3CC-48CC-B563-75BB97AF1CFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE3C8553-0F3E-466A-920F-1CD503138BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE3C8553-0F3E-466A-920F-1CD503138BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE3C8553-0F3E-466A-920F-1CD503138BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE3C8553-0F3E-466A-920F-1CD503138BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C1E4A52-3B8D-4F0E-9A61-2D5B8E3F4A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C1E4A52-3B8D-4F0E-9A61-2D5B8E3F4A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C1E4A52-3B8D-4F0E-9A61-2D5B8E3F4A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C1E4A52-3B8D-4F0E-9A61-2D5B8E3F4A17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7C1E4A52-3B8D-4F0E-9A61-2D5B8E3F4A17} = {272908EA-8313-4B3A-B804-35692F8DCBDC}
+		{B30826FC-43D3-46A0-B8D6-0EDB4CB80868} = {272908EA-8313-4B3A-B804-35692F8DCBDC}
+		{2F90922D-D3CC-48CC-B563-75BB97AF1CFB} = {272908EA-8313-4B3A-B804-35692F8DCBDC}
+		{DE3C8553-0F3E-466A-920F-1CD503138BC9} = {45B3B76B-2FDA-40E5-89D8-6AEB971BCC97}
+	EndGlobalSection
+EndGlobal
