@@ -39,7 +39,7 @@ jobs:
           name: PdfGestor-win-x64
           path: |
             publish/app/PdfGestor.exe
-            publish/cli/pdfgestor.exe
+            publish/cli/pdfgestor-cli.exe
 
       # La versión sale de Directory.Build.props. Cada subida a main
       # crea (o actualiza) la Release de esa versión con los .exe.
@@ -60,4 +60,4 @@ jobs:
           overwrite_files: true
           files: |
             publish/app/PdfGestor.exe
-            publish/cli/pdfgestor.exe
+            publish/cli/pdfgestor-cli.exe

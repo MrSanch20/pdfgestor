@@ -32,18 +32,18 @@ Los rangos se escriben con números desde 1 separados por comas. `8-` significa 
 Ve a [Releases](https://github.com/MrSanch20/pdfgestor/releases) y descarga:
 
 - `PdfGestor.exe`: la aplicación con ventana.
-- `pdfgestor.exe`: la versión de consola, para scripts.
+- `pdfgestor-cli.exe`: la versión de consola, para scripts.
 
 > El ejecutable no está firmado, así que la primera vez Windows SmartScreen puede avisar. Pulsa **Más información → Ejecutar de todas formas**. Si prefieres no fiarte, compílalo tú mismo (abajo).
 
 ## Consola
 
 ```text
-pdfgestor unir     salida.pdf a.pdf b.pdf c.pdf
-pdfgestor dividir  informe.pdf --cada 2
-pdfgestor dividir  informe.pdf --rangos "1-3, 5, 8-" --carpeta partes
-pdfgestor extraer  informe.pdf "4, 1-2" extracto.pdf
-pdfgestor paginas  informe.pdf
+pdfgestor-cli unir     salida.pdf a.pdf b.pdf c.pdf
+pdfgestor-cli dividir  informe.pdf --cada 2
+pdfgestor-cli dividir  informe.pdf --rangos "1-3, 5, 8-" --carpeta partes
+pdfgestor-cli extraer  informe.pdf "4, 1-2" extracto.pdf
+pdfgestor-cli paginas  informe.pdf
 ```
 
 ## Compilar desde el código

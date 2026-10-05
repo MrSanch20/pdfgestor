@@ -4,11 +4,11 @@ const string Help = """
     PDF Gestor · une y divide PDFs sin subirlos a internet
 
     Uso:
-      pdfgestor unir     <salida.pdf> <entrada1.pdf> <entrada2.pdf> [...]
-      pdfgestor dividir  <entrada.pdf> --rangos "1-3, 5, 8-" [--carpeta <dir>]
-      pdfgestor dividir  <entrada.pdf> --cada <N>            [--carpeta <dir>]
-      pdfgestor extraer  <entrada.pdf> "1-3, 5" <salida.pdf>
-      pdfgestor paginas  <entrada.pdf>
+      pdfgestor-cli unir     <salida.pdf> <entrada1.pdf> <entrada2.pdf> [...]
+      pdfgestor-cli dividir  <entrada.pdf> --rangos "1-3, 5, 8-" [--carpeta <dir>]
+      pdfgestor-cli dividir  <entrada.pdf> --cada <N>            [--carpeta <dir>]
+      pdfgestor-cli extraer  <entrada.pdf> "1-3, 5" <salida.pdf>
+      pdfgestor-cli paginas  <entrada.pdf>
 
     Rangos: números desde 1, separados por comas. "8-" = de la 8 al final.
     Si no indicas --carpeta, los archivos se crean junto al original.
