@@ -74,7 +74,7 @@ tests/
   PdfGestor.Core.Tests/   Tests con xUnit.
 ```
 
-La lógica está separada de la interfaz: la app y la consola usan el mismo `PdfService`, y los tests lo prueban sin abrir ninguna ventana. Cada subida a `main` se compila y se prueba en GitHub Actions; al crear un tag `v*` se publica una Release con los ejecutables.
+La lógica está separada de la interfaz: la app y la consola usan el mismo `PdfService`, y los tests lo prueban sin abrir ninguna ventana. Cada subida a `main` se compila y se prueba en GitHub Actions; además se publica (o actualiza) la Release de la versión indicada en `Directory.Build.props` con los ejecutables.
 
 ## Tecnologías
 
