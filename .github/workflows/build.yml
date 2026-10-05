@@ -52,12 +52,21 @@ jobs:
 
       - name: Crear Release
         if: github.event_name == 'push'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || steps.version.outputs.tag }}
-          target_commitish: ${{ github.sha }}
-          name: PDF Gestor ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || steps.version.outputs.tag }}
-          overwrite_files: true
-          files: |
-            publish/app/PdfGestor.exe
-            publish/cli/pdfgestor-cli.exe
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || steps.version.outputs.tag }}
+        run: |
+          # Borra la Release anterior de esta versión (si la hay) para dejarla limpia
+          for id in $(gh api "repos/$REPO/releases" --jq ".[] | select(.tag_name == \"$TAG\") | .id"); do
+            gh api -X DELETE "repos/$REPO/releases/$id"
+          done
+          # En subidas a main, mueve el tag de la versión al commit actual
+          if [[ "$GITHUB_REF" != refs/tags/* ]]; then
+            gh api -X DELETE "repos/$REPO/git/refs/tags/$TAG" 2>/dev/null || true
+          fi
+          gh release create "$TAG" publish/app/PdfGestor.exe publish/cli/pdfgestor-cli.exe \
+            --target "$GITHUB_SHA" \
+            --title "PDF Gestor $TAG" \
+            --notes "Descarga **PdfGestor.exe** (aplicación con ventana) o **pdfgestor-cli.exe** (consola). No necesitan instalación. Todo se procesa en tu equipo."
