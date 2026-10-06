@@ -1,5 +1,7 @@
 # Activar la firma de código con SignPath
 
+> **Estado:** solicitud a SignPath Foundation rechazada el 2026-10-06 por falta de visibilidad del proyecto (estrellas, forks, menciones). Se puede volver a pedir cuando tenga más recorrido. Al reactivarla, vuelve a añadir al README la sección "Política de firma de código" (ver historial de git).
+
 La firma ya está preparada en `.github/workflows/build.yml`, pero solo se activa cuando existe el secreto `SIGNPATH_API_TOKEN`. Hasta entonces, las Releases salen sin firmar, como hasta ahora.
 
 ## 1. Antes de pedirla

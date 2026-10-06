@@ -78,7 +78,7 @@ tests/
   PdfGestor.Core.Tests/   Tests con xUnit.
 ```
 
-La lógica está separada de la interfaz: la app y la consola usan el mismo `PdfService`, y los tests lo prueban sin abrir ninguna ventana. Cada subida a `main` se compila y se prueba en GitHub Actions. Cuando cambia la versión de `Directory.Build.props`, se publica automáticamente una Release nueva con los ejecutables, firmados con SignPath si está configurado.
+La lógica está separada de la interfaz: la app y la consola usan el mismo `PdfService`, y los tests lo prueban sin abrir ninguna ventana. Cada subida a `main` se compila y se prueba en GitHub Actions. Cuando cambia la versión de `Directory.Build.props`, se publica automáticamente una Release nueva con los ejecutables.
 
 ## Tecnologías
 
@@ -95,19 +95,6 @@ Este programa no transfiere ninguna información a otros sistemas de la red, sal
 *This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.*
 
 PDF Gestor no tiene ninguna función de red: no comprueba actualizaciones, no envía estadísticas y no usa servicios externos.
-
-## Política de firma de código
-
-Free code signing provided by [SignPath.io](https://about.signpath.io), certificate by [SignPath Foundation](https://signpath.org).
-
-*Firma de código gratuita proporcionada por SignPath.io, con certificado de SignPath Foundation.*
-
-Los ejecutables se compilan con GitHub Actions a partir del código de este repositorio y se firman en ese mismo proceso. Cada versión se aprueba a mano antes de firmarla.
-
-| Rol | Personas |
-|---|---|
-| Committers y revisores | [Daniel Sancho Goñi](https://github.com/MrSanch20) |
-| Aprobadores | [Daniel Sancho Goñi](https://github.com/MrSanch20) |
 
 ## Licencia
 
